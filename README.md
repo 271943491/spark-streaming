@@ -8,5 +8,4 @@ SparkHbase.scala
 注意foreachRDD的使用
 
 
-UserBehaviorMsgProducer
-scala语言编写，负责产生数据，使用IntelliJ IDEA执行
+UserBehaviorMsgProducer    scala语言编写，负责产生数据，使用IntelliJ IDEA执行
