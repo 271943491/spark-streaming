@@ -9,13 +9,21 @@ import org.apache.hadoop.hbase.client.Put
 
 object Blaher {
   def blah(row: String) {
-   val hConf = new HBaseConfiguration()
-   val hTable = new HTable(hConf, "student")
-   // val thePut = new Put(Bytes.toBytes("key1"))
+   // Hbase配置
+   val tableName = "student" // 定义表名
+   val hbaseConf = HBaseConfiguration.create()
+   hbaseConf.set("hbase.zookeeper.quorum", "youzy.domain,youzy2.domain,youzy3.domain")
+   hbaseConf.set("hbase.zookeeper.property.clientPort", "2181")
+   hbaseConf.set("hbase.defaults.for.version.skip", "true")
+   val hTable = new HTable(hbaseConf, tableName)
    val thePut = new Put("key1".getBytes())
-   // thePut.add(Bytes.toBytes("info"), Bytes.toBytes(row(0)), Bytes.toBytes(row(0)))
    thePut.add("info".getBytes,row.getBytes,row.getBytes)
+   hTable.setAutoFlush(false, false)
+   // 写入数据缓存
+   hTable.setWriteBufferSize(3*1024*1024)
    hTable.put(thePut)
+   // 提交
+   hTable.flushCommits()
   }
 }
 
